@@ -29,6 +29,11 @@ const StyledCard = styled(Card)({
   padding: "20px",
   border: "1px solid #ddd",
   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+  marginBottom: "20px",
+  display: "flex",
+  justifyContent: "space-evenly",
+  alignItems: "center",
+  width: "100%",
 });
 
 const StyledBox = styled(Box)({
@@ -41,7 +46,7 @@ const StyledBox = styled(Box)({
 
 const StyledMetricLabels = styled(Typography)({
   color: "#999",
-  fontSize: "14px",
+  fontSize: "16px",
 });
 
 const SearchBox: React.FC<SearchBoxProps> = ({
@@ -60,8 +65,9 @@ const SearchBox: React.FC<SearchBoxProps> = ({
       label="Search Reviews"
       value={searchKeyword}
       onChange={handleSearchChange}
-      fullWidth
-      sx={{ marginBottom: "20px" }}
+      sx={{
+        width: "400px",
+      }}
     />
   );
 };
@@ -71,11 +77,12 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   setCurrentIndex,
   maxIndex,
 }) => (
-  <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+  <Box sx={{ display: "flex" }}>
     <Button
       variant="contained"
       onClick={() => setCurrentIndex(currentIndex - 1)}
       disabled={currentIndex === 0}
+      sx={{ mr: 2.5 }}
     >
       Previous
     </Button>
@@ -118,22 +125,23 @@ export default function Home() {
 
       <StyledContainer>
         <StyledCard>
-          <Box sx={{ marginBottom: "20px" }}>
-            <SearchBox
-              searchKeyword={searchKeyword}
-              setSearchKeyword={setSearchKeyword}
-            />
-            <Grid container sx={{ flexDirection: "column" }}>
+          <SearchBox
+            searchKeyword={searchKeyword}
+            setSearchKeyword={setSearchKeyword}
+          />
+          <Grid
+            container
+            sx={{ flexDirection: "column", alignItems: "center" }}
+          >
+            <StyledMetricLabels variant="h6">
+              Total Reviews: {jsonData.length}
+            </StyledMetricLabels>
+            {filteredData.length > 0 && (
               <StyledMetricLabels variant="h6">
-                Total Reviews: {jsonData.length}
+                Viewing: {currentDisplayIndex + 1} / {filteredData.length}
               </StyledMetricLabels>
-              {filteredData.length > 0 && (
-                <StyledMetricLabels variant="h6">
-                  Viewing: {currentDisplayIndex + 1} / {filteredData.length}
-                </StyledMetricLabels>
-              )}
-            </Grid>
-          </Box>
+            )}
+          </Grid>
 
           <PaginationControls
             currentIndex={currentDisplayIndex}
