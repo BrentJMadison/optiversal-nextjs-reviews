@@ -13,7 +13,7 @@ const OpenAIQuery = (props: { text: string }) => {
   useEffect(() => {
     clearResponse();
     setActionType(undefined);
-  }, [text]);
+  }, [text, clearResponse, setActionType]);
 
   return (
     <Box

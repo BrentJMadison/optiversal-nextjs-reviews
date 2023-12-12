@@ -1,40 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Project Objective:
+```
+Using this public sample of appliance reviews from Amazon:
+https://datarepo.eng.ucsd.edu/mcauley_group/data/amazon_v2/categoryFilesSmall/Appliances_5.json.gz
+Write a simple CLI or web app (your choice) that allows you to enter a search keyword and displays the first matching review from the set. One review is displayed at a time and you can execute one of the following commands:
+1. Next - display the next matching review
+2. Guess Type - using OpenAI, guess the type of product being reviewed in the displayed review (e.g. refrigerator, blender, etc.)
+3. Summarize - using OpenAI, summarize the review in 10 words or fewer
+
+Your project should be delivered in a shared Github repo along with instructions on how to run the application locally.
+```
+
+
 
 ## Getting Started
 
-First, run the development server:
+1. Create `.env` in root directory and populate `OPENAI_API_KEY`
+2. Install dependencies `npm i`
+3. Run development server `npm run dev`
+4. Webapp is accessible via [http://localhost:3000](http://localhost:3000)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Assumptions
+ - Data Volume
+   - The review dataset is assumed to be under 10,000 lines. It is managed client-side due to its modest size. For larger datasets, a more robust solution involving databases, indexing, and a CDN might be necessary.
+- User Load
+  - The application is designed for minimal concurrent users, hence no implementation of rate limiting for API calls at this stage.
+- User Interface
+  - It is assumed that users have access to a keyboard and screen. There is currently limited screen reader support and limited ADA compliance.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Design Decisions
+- UI Library - MaterialUI
+  - Chosen for its familiarity and standardization in the industry. No specific design guidelines were provided for this project.
+- Framework - NextJS
+  - Selected for its integrated API capabilities, allowing for server-side calls to manage the OPENAI_API_KEY securely.
+- Testing
+  - Current version does not include test coverage due to its simplicity and limited user base.
+- Client-Side Filtering
+  - Implemented for performance efficiency given the manageable size of the review data.
+  
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Improvements
+- Remove duplicate reviews
+  - Implement strategies to remove duplicates, potentially using unique identifiers like timestamp and reviewer name, or through preprocessing before database import.
+- Keyword Highlighting
+  - Enhance user experience by highlighting search terms within the reviews.
+- Advanced Search Options
+  - Introduce complex search functionalities, including logical operators like AND/OR.
+- Optimize OpenAI Queries
+  - Add limitations to existing OpenAI query to better formulate response.
+- Test coverage
+  - Introduce test coverage for critical components to ensure reliability, particularly if scaling for production use.
+ 
+## Screenshots
