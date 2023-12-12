@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import {
   Card,
@@ -26,7 +26,6 @@ const StyledContainer = styled(Container)({
 });
 
 const StyledCard = styled(Card)({
-  width: "600px",
   padding: "20px",
   border: "1px solid #ddd",
   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
@@ -36,7 +35,7 @@ const StyledBox = styled(Box)({
   display: "flex",
   justifyContent: "center",
   marginBottom: "20px",
-  width: "600px",
+  maxWidth: "600px",
   marginTop: "30px",
 });
 
@@ -96,6 +95,11 @@ export default function Home() {
 
   const jsonData = useFetchReviews();
 
+  // Reset currentDisplayIndex to 0 whenever searchKeyword changes
+  useEffect(() => {
+    setCurrentDisplayIndex(0);
+  }, [searchKeyword]);
+
   //Memoized filteredData so it doesnt have to be recalculated on every render, only when searchKeyword changes
   const filteredData = useMemo(
     () =>
@@ -109,7 +113,6 @@ export default function Home() {
     <>
       <Head>
         <title>Optiversal Search Reviews</title>
-
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
