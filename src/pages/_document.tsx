@@ -16,6 +16,7 @@ export default class MyDocument extends Document {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
 
+    // Needed to properly use styled-components with NextJS SSR
     try {
       ctx.renderPage = () =>
         originalRenderPage({

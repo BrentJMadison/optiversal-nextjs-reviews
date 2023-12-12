@@ -18,6 +18,7 @@ const ProductReview = (props: ProductReviewProps) => {
 
   return (
     <Container disableGutters>
+      {/* Depending on what the design actually looked like, I might consider separating these components */}
       <OpenAIQuery text={review.reviewText} />
 
       <Card>
