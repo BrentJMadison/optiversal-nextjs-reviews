@@ -1,4 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
+import Head from "next/head";
+
 import styled from "styled-components";
 import {
   Card,
@@ -15,8 +17,10 @@ import { useFetchReviews } from "@/hooks/useFetchReviews";
 import {
   SearchBoxProps,
   PaginationControlsProps,
+  Review,
 } from "@/types/ProductReview.types";
-import Head from "next/head";
+import OpenAIQuery from "@/components/OpenAIQuery";
+import { emptyReview } from "@/types/OpenAIActions";
 
 const StyledContainer = styled(Container)({
   padding: "30px 0",
@@ -31,17 +35,8 @@ const StyledCard = styled(Card)({
   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
   marginBottom: "20px",
   display: "flex",
-  justifyContent: "space-evenly",
   alignItems: "center",
   width: "100%",
-});
-
-const StyledBox = styled(Box)({
-  display: "flex",
-  justifyContent: "center",
-  marginBottom: "20px",
-  maxWidth: "600px",
-  marginTop: "30px",
 });
 
 const StyledMetricLabels = styled(Typography)({
@@ -102,12 +97,11 @@ export default function Home() {
 
   const jsonData = useFetchReviews();
 
-  // Reset currentDisplayIndex to 0 whenever searchKeyword changes
   useEffect(() => {
     setCurrentDisplayIndex(0);
   }, [searchKeyword]);
 
-  //Memoized filteredData so it doesnt have to be recalculated on every render, only when searchKeyword changes
+  //useMemo matters more when the data set is larger, still good to memoize this though.
   const filteredData = useMemo(
     () =>
       jsonData.filter((review) =>
@@ -115,6 +109,9 @@ export default function Home() {
       ),
     [searchKeyword, jsonData]
   );
+
+  const currentReview: Review =
+    filteredData.length > 0 ? filteredData[currentDisplayIndex] : emptyReview;
 
   return (
     <>
@@ -150,17 +147,19 @@ export default function Home() {
           />
         </StyledCard>
 
-        {filteredData.length > 0 ? (
-          <StyledBox>
-            <ProductReview review={filteredData[currentDisplayIndex]} />
-          </StyledBox>
-        ) : (
+        {currentReview.unixReviewTime === 0 ? (
           <Typography
             variant="h6"
             sx={{ textAlign: "center", mt: "30px", color: "black" }}
           >
             No reviews found for search term: {searchKeyword}
           </Typography>
+        ) : (
+          <>
+            <OpenAIQuery text={currentReview.reviewText} />
+
+            <ProductReview review={currentReview} />
+          </>
         )}
       </StyledContainer>
     </>

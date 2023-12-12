@@ -1,11 +1,17 @@
-import { OpenAIAction, OpenAIActions } from "@/types/OpenAIActions";
 import type { NextApiRequest, NextApiResponse } from "next";
+
 import OpenAI from "openai";
+
+import { OpenAIAction, OpenAIActions } from "@/types/OpenAIActions";
 
 if (!process.env.OPENAI_API_KEY) {
   console.error("OPENAI_API_KEY is not set in the environment variables.");
   process.exit(1);
 }
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 interface OpenAPIPostRequest extends NextApiRequest {
   body: {
@@ -13,10 +19,6 @@ interface OpenAPIPostRequest extends NextApiRequest {
     type: OpenAIAction;
   };
 }
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 export default async function handler(
   req: OpenAPIPostRequest,

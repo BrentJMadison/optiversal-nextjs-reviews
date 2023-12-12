@@ -19,8 +19,8 @@ const OpenAIQuery = (props: { text: string }) => {
     <Box
       sx={{
         display: "flex",
+        width: "100%",
         justifyContent: "center",
-        mb: 3,
         flexDirection: "column",
         alignItems: "center",
       }}

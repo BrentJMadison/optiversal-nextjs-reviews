@@ -17,11 +17,18 @@ const ProductReview = (props: ProductReviewProps) => {
   const { review } = props;
 
   return (
-    <Container disableGutters>
-      {/* Depending on what the design actually looked like, I might consider separating these components */}
-      <OpenAIQuery text={review.reviewText} />
-
-      <Card>
+    <Container
+      disableGutters
+      sx={{
+        marginTop: "30px",
+      }}
+    >
+      <Card
+        sx={{
+          border: "1px solid #ddd",
+          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+        }}
+      >
         <CardContent>
           <Grid container spacing={2}>
             <Grid item>
