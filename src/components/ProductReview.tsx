@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 
 import { ProductReviewProps } from "@/types/ProductReview.types";
-import OpenAIQuery from "./OpenAIQuery";
 
 const ProductReview = (props: ProductReviewProps) => {
   const { review } = props;

@@ -14,6 +14,7 @@ export const useFetchReviews = () => {
 
         //The data is stored as a newline delimited JSON file, so we need to parse it line by line
         const lines = text.trim().split("\n");
+
         const parsedData = lines.map((line) => JSON.parse(line));
         setJsonData(parsedData);
       } catch (error) {

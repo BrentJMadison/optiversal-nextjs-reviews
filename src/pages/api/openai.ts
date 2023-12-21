@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-
 import OpenAI from "openai";
-
 import { OpenAIAction, OpenAIActions } from "@/types/OpenAIActions";
 
 if (!process.env.OPENAI_API_KEY) {
